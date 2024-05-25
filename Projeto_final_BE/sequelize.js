@@ -10,12 +10,7 @@ const LikeDataModel = require('./models/likes');
 const FolowDataModel = require('./models/follower');
 //------------------------------------------
 const { FOREIGNKEYS } = require('sequelize/lib/query-types');
-const Users = require('./models/user');
-const tweet = require('./models/tweet');
-const comment = require('./models/comments');
-const like = require('./models/likes');
-const user = require('./models/user');
-const follow = require('./models/follower');
+
 
 
 
@@ -34,7 +29,7 @@ sequelize_instance.authenticate()
 });
 
 
-sequelize_instance.sync({ force: true})
+sequelize_instance.sync({ force: false})
     .then(() => {
         console.log('Database e tables created');
     });

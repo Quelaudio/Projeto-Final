@@ -8,11 +8,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var flash = require('connect-flash');
-
+const cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+app.use(cors());
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -24,6 +25,24 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'cat', cookie: { maxAge: 60000 } })); // Use the session middleware
 app.use(flash()); // use connect-flash for flash messages stored in session
+
+
+
+
+
+function ignoreFavicon(req, res, next) {
+  if (req.originalUrl.includes('favicon.ico')) {
+    res.status(204).end()
+  }
+  next();
+}
+
+then:
+
+app.use(ignoreFavicon);
+
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

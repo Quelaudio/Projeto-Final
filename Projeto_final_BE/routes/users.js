@@ -20,7 +20,7 @@ var userController = require('../controller/userController')
 // }
 
 router.get('/',userController.getUsers)
-router.post('/',userController.signupUser)
+// router.post('/',userController.signupUser)
 
 
 

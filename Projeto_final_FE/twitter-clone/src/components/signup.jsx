@@ -14,8 +14,8 @@ const SignUp = () => {
                 email,
                 password
             });
-            const { user_id } = response.data;
-            localStorage.setItem('user_id', user_id);
+            const { UserUserid } = response.data;
+            localStorage.setItem('UserUserid', UserUserid);
             alert('User created successfully');
         } catch (error) {
             console.error('Error signing up', error);

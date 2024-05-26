@@ -13,12 +13,12 @@
     
 
 // controller/tweetController.js
-const Tweet = require('../sequelize').tweets;
+const Tweet = require('../sequelize').Tweet;
 
 exports.createTweet=(req,res,next)=>{
     Tweet.create(req.body)
     .then(newTweet => {
-            res.send("Inserted with ID");
+            res.send("Inserted with ID"+ newTweet.UserUserId);
     });
 }
 

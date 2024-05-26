@@ -1,3 +1,4 @@
+// TweetForm.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import './tweetForm.css';
@@ -9,8 +10,15 @@ const TweetForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const user_id = localStorage.getItem('user_id'); // Retrieve the user ID from local storage
+        if (!user_id) {
+            alert('Please log in to post a tweet');
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:3000/tweets', {
+                UserUserid: user_id, // Include the user ID in the request payload
                 text,
                 img_path: imgPath,
                 date_pub: datePub

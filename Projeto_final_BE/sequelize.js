@@ -1,72 +1,63 @@
-var dotenv = require('dotenv');
+// sequelize.js
+
+const dotenv = require('dotenv');
 dotenv.config();
-const mysql = require('mysql2')
-const { Sequelize,DataTypes } = require('sequelize');
-//------------------------------------
+const { Sequelize, DataTypes } = require('sequelize');
+
+// Import models
 const UserDataModel = require('./models/user');
-const tweetDataModel = require('./models/tweet');
+const TweetDataModel = require('./models/tweet');
 const CommentDataModel = require('./models/comments');
 const LikeDataModel = require('./models/likes');
-const FolowDataModel = require('./models/follower');
-//------------------------------------------
-const { FOREIGNKEYS } = require('sequelize/lib/query-types');
+const FollowDataModel = require('./models/follower');
 
-
-
-
-const sequelize_instance = new Sequelize(process.env.DB_SCHEMA, process.env.DB_USER, process.env.DB_PASS,{
+// Initialize Sequelize
+const sequelize_instance = new Sequelize(process.env.DB_SCHEMA, process.env.DB_USER, process.env.DB_PASS, {
     dialect: 'mysql'
-
-
 });
 
+// Authenticate Sequelize
 sequelize_instance.authenticate()
-.then(()=> {
-    console.log("connection has been established");
-})
-.catch(err => {
-    console.log("unable to connect", err);
-});
-
-
-sequelize_instance.sync({ force: false})
     .then(() => {
-        console.log('Database e tables created');
+        console.log("Connection has been established");
+    })
+    .catch(err => {
+        console.log("Unable to connect", err);
     });
 
-  
+// Sync Sequelize
+sequelize_instance.sync({ force: false })
+    .then(() => {
+        console.log('Database and tables created');
+    });
 
+// Define models
 const User = UserDataModel(sequelize_instance, DataTypes);
-const tweets = tweetDataModel(sequelize_instance, DataTypes);
-const comments = CommentDataModel(sequelize_instance, DataTypes);
-const likes = LikeDataModel(sequelize_instance,DataTypes)
-const foll = FolowDataModel(sequelize_instance,DataTypes)
+const Tweet = TweetDataModel(sequelize_instance, DataTypes);
+const Comment = CommentDataModel(sequelize_instance, DataTypes);
+const Like = LikeDataModel(sequelize_instance, DataTypes);
+const Follow = FollowDataModel(sequelize_instance, DataTypes);
 
+// Define associations
+Tweet.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+User.hasMany(Tweet, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 
-tweets.belongsTo(User, {foreignkey: 'user_id',  onDelete: 'CASCADE' });
-User.hasMany(tweets, {foreignkey: 'user_id',  onDelete: 'CASCADE' });
+User.hasMany(Like, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+Like.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 
+Tweet.hasMany(Like, { foreignKey: 'tweet_id', onDelete: 'CASCADE' });
+Like.belongsTo(Tweet, { foreignKey: 'tweet_id', onDelete: 'CASCADE' });
 
+User.hasMany(Follow, { foreignKey: 'follower_id', onDelete: 'CASCADE' });
+Follow.belongsTo(User, { foreignKey: 'follower_id', onDelete: 'CASCADE' });
 
-User.hasMany(likes, { foreignKey: 'user_id', onDelete: 'CASCADE' });
-likes.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
-
-tweets.hasMany(likes, { foreignKey: 'tweet_id', onDelete: 'CASCADE' });
-likes.belongsTo(tweets, { foreignKey: 'tweet_id', onDelete: 'CASCADE' });
-
-
-User.hasMany(foll, {foreignKey: 'follower_id',onDelete: 'CASCADE'});
-
-foll.belongsTo(User, {foreignKey:'follower_id', onDelete: 'CASCADE'});
-
-
-User.hasMany(foll, {foreignKey: 'followed_id',onDelete: 'CASCADE'});
-
-foll.belongsTo(User, {foreignKey:'followed_id', onDelete: 'CASCADE'});
-
+User.hasMany(Follow, { foreignKey: 'followed_id', onDelete: 'CASCADE' });
+Follow.belongsTo(User, { foreignKey: 'followed_id', onDelete: 'CASCADE' });
 
 module.exports = {
-    User, tweets,comments,likes, foll
-}
-
-
+    User,
+    Tweet,
+    Comment,
+    Like,
+    Follow
+};

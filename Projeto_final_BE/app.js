@@ -9,9 +9,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var flash = require('connect-flash');
 const cors = require('cors');
+
+///////////////////////////////////////////////
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var tweetsRouter = require('./routes/tweets');
+var tweetsRouter = require('./routes/tweet');
+///////////////////////////////////////////////
+
 var app = express();
 app.use(cors());
 
@@ -29,25 +33,16 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 
 
-
-function ignoreFavicon(req, res, next) {
-  if (req.originalUrl.includes('favicon.ico')) {
-    res.status(204).end()
-  }
-  next();
-}
-
-then:
-
-app.use(ignoreFavicon);
-
-
-
-
-
+///////////////////////////////
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tweets', tweetsRouter);
+////////////////////////////////
+
+
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

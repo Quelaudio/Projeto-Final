@@ -1,9 +1,9 @@
+// SignUp.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import './sginup.css';
 
 const SignUp = () => {
-    // const [username, setusername] = useState('')
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -11,11 +11,12 @@ const SignUp = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:3000/users', {
-                // username,
                 email,
                 password
             });
-            alert(response.data);
+            const { user_id } = response.data;
+            localStorage.setItem('user_id', user_id);
+            alert('User created successfully');
         } catch (error) {
             console.error('Error signing up', error);
             alert('Error signing up');
@@ -45,7 +46,7 @@ const SignUp = () => {
                     />
                 </div>
                 <button type="submit">Sign Up</button>
-                <button>Already have an account? Click here to login. </button>
+                
             </form>
         </div>
     );

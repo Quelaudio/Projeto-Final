@@ -1,17 +1,22 @@
 const User = require('../sequelize').User;
 
-exports.getUsers = function (request, response, next) {
+exports.getUsers = function (req, res, next) {
     User.findAll()
         .then(users => {
-            response.send(users);
+            res.send(users);
         });
 };
 
 exports.signupUser = function (req, res, next) {
     User.create(req.body)
         .then(newUser => {
-                res.send("Inserted with ID: ");
+            res.send("Inserted with ID: " + newUser.user_id);
+        })
+        .catch(error => {
+            console.error('Error creating user:', error);
+            res.status(500).send('Error creating user');
         });
 };
+
 
 

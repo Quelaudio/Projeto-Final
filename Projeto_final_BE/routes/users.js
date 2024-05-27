@@ -19,7 +19,8 @@ var userController = require('../controller/userController')
 //   });
 // }
 
-router.get('/Login',userController.loginUser)
+router.post('/Login',userController.loginUser)
+
 router.get('/',userController.getUsers)
 
 router.post('/signup',userController.signupUser)

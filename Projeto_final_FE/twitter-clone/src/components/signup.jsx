@@ -2,7 +2,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import axios from 'axios';
-import './sginup.css';
+import './css/signup.css';
 
 const SignUp = () => {
     const [email, setEmail] = useState('');

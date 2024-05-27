@@ -9,8 +9,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var flash = require('connect-flash');
 const cors = require('cors');
-import multer from 'multer';
-import path from 'path';
+
+
 
 ///////////////////////////////////////////////
 var indexRouter = require('./routes/index');
@@ -33,7 +33,7 @@ app.use(session({ secret: 'cat', cookie: { maxAge: 60000 } })); // Use the sessi
 app.use(flash()); // use connect-flash for flash messages stored in session
 /////////////////////////////////////
 
-
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 
 

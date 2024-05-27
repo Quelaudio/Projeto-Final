@@ -1,0 +1,88 @@
+.tweetform-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1500px;
+    height: 700px;
+    margin: 0 auto;
+    margin-left: -35%;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tweetform-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tweetform-container h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #333;
+}
+
+.tweetform {
+    display: flex;
+    flex-direction: column;
+}
+
+.tweetform label {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+.tweetform textarea {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+    width: 450px;
+    height: 350px;
+    resize: none;
+    font-size: 17px;
+    margin-bottom: 10%;
+}
+
+.tweetform textarea:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555;
+    font-size: larger;
+}
+
+.input-group input[type="file"] {
+    display: block;
+    margin-top: 5px;
+    color: black;
+}
+
+button[type="submit"] {
+    margin-top: 10%;
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}

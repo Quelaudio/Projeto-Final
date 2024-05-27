@@ -10,9 +10,5 @@ module.exports = (sequelize, type) => {
     },
     text: type.STRING(280),
     img_path: type.TEXT,
-    
-    
-
-
     });
 }

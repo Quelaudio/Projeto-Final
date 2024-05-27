@@ -1,13 +1,31 @@
 const User = require('../sequelize').User;
+var jwt = require('jsonwebtoken');
 
-exports.getUsers =  (req, res, next)=> {
+// Generate Access Token
+function generateAccessToken(email, password) {
+    var token = jwt.sign({ email, password }, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+    return token;
+}
+
+
+
+
+
+
+// Get Users
+exports.getUsers = (req, res, next) => {
     User.findAll()
         .then(users => {
             res.send(users);
+        })
+        .catch(error => {
+            console.error('Error fetching users:', error);
+            res.status(500).send('Error fetching users');
         });
 };
 
-exports.signupUser =  (req, res, next) =>{
+// Signup User
+exports.signupUser = (req, res, next) => {
     User.create(req.body)
         .then(newUser => {
             res.send("Inserted with ID: " + newUser.user_id);
@@ -18,7 +36,8 @@ exports.signupUser =  (req, res, next) =>{
         });
 };
 
-exports.loginUser =  (req, res) =>{
+// Login User
+exports.loginUser = (req, res) => {
     var { email, password } = req.body;
     User.findOne({
         where: {
@@ -26,16 +45,27 @@ exports.loginUser =  (req, res) =>{
         }
     }).then(user => {
         if (user == null) {
-            res.status(401).json({message: 'No user found with that e-mail'}); 
-        }
-        else if (user.password != password) {            
-            res.status(401).json({message: 'Oops! Wrong password.'}); 
+            res.status(401).json({ message: 'No user found with that e-mail' });
+        } else if (user.password !== password) {
+            res.status(401).json({ message: 'Oops! Wrong password.' });
         } else {
-            // const token = generateAccessToken(email, password);      
-            res.status(200).json({ user });     
+            const token = generateAccessToken(email, password);
+            res.status(200).json({ user, token: token });
         }
+    }).catch(error => {
+        console.error('Error finding user:', error);
+        res.status(500).send('Error logging in user');
     });
-}
+};
 
 
+exports.logout, (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (token == null) return res.sendStatus(401);
+
+    blacklistedTokens.push(token);
+    res.json({ message: 'Logged out successfully' });
+};
 

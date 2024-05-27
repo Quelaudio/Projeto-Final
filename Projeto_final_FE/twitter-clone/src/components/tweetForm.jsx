@@ -2,7 +2,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import axios from 'axios';
-import './tweetForm.css';
+import './css/tweetForm.css';
 
 const TweetForm = () => {
     const [text, setText] = useState('');
@@ -40,21 +40,26 @@ const TweetForm = () => {
             <h2>Post a Tweet</h2>
             <form className="tweetform" onSubmit={handleSubmit}>
                 <div>
-                    <label>Tweet</label>
                     <textarea
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                         required
                     />
                 </div>
-                <div>
+                <div class="input-group">
+                <label for='files'>Select files</label>
+                <input id='files' type="file" multiple 
+                value={imgPath}
+                onChange={(e) => setImgPath(e.target.value)}/>
+            </div>
+                {/* <div>
                     <label>Image Path</label>
                     <input
                         type="text"
                         value={imgPath}
                         onChange={(e) => setImgPath(e.target.value)}
                     />
-                </div>
+                </div> */}
                 <button type="submit">Post Tweet</button>
             </form>
         </div>

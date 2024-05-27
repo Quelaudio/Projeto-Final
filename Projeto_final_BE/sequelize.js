@@ -3,8 +3,8 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const { Sequelize, DataTypes } = require('sequelize');
-import multer from 'multer';
-import path from 'path';
+// import multer from 'multer';
+// import path from 'path';
 
 // Import models
 const UserDataModel = require('./models/user');
@@ -19,14 +19,14 @@ const sequelize_instance = new Sequelize(process.env.DB_SCHEMA, process.env.DB_U
 });
 
 
-const storage = multer.diskStorage({
-    destination: (req,file,cb) =>{
-        sequelize_instance(null,'public/images')
-    },
-    filename: (req,file,cb)=>{
-        sequelize_instance(null,file.fieldname + "_" + Date.now() + path.extname(file.originalname))
-    }
-})
+// const storage = multer.diskStorage({
+//     destination: (req,file,cb) =>{
+//         sequelize_instance(null,'public/images')
+//     },
+//     filename: (req,file,cb)=>{
+//         sequelize_instance(null,file.fieldname + "_" + Date.now() + path.extname(file.originalname))
+//     }
+// })
 
 // Authenticate Sequelize
 sequelize_instance.authenticate()

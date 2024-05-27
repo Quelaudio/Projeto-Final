@@ -9,6 +9,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var flash = require('connect-flash');
 const cors = require('cors');
+import multer from 'multer';
+import path from 'path';
 
 ///////////////////////////////////////////////
 var indexRouter = require('./routes/index');
@@ -29,6 +31,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'cat', cookie: { maxAge: 60000 } })); // Use the session middleware
 app.use(flash()); // use connect-flash for flash messages stored in session
+/////////////////////////////////////
+
 
 
 

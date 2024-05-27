@@ -6,8 +6,8 @@ module.exports = (sequelize, type) => {
             primaryKey: true
         },
         password: type.TEXT,
-        email: type.TEXT
-    }, {
-        timestamps: false // Disable automatic timestamp management
+        email: type.TEXT,
+        username: type.STRING(50),
+        user_type: type.BOOLEAN
     });
 }

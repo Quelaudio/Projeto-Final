@@ -3,6 +3,8 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const { Sequelize, DataTypes } = require('sequelize');
+import multer from 'multer';
+import path from 'path';
 
 // Import models
 const UserDataModel = require('./models/user');
@@ -16,6 +18,16 @@ const sequelize_instance = new Sequelize(process.env.DB_SCHEMA, process.env.DB_U
     dialect: 'mysql'
 });
 
+
+const storage = multer.diskStorage({
+    destination: (req,file,cb) =>{
+        sequelize_instance(null,'public/images')
+    },
+    filename: (req,file,cb)=>{
+        sequelize_instance(null,file.fieldname + "_" + Date.now() + path.extname(file.originalname))
+    }
+})
+
 // Authenticate Sequelize
 sequelize_instance.authenticate()
     .then(() => {
@@ -25,7 +37,7 @@ sequelize_instance.authenticate()
         console.log("Unable to connect", err);
     });
 
-// Sync Sequelize
+
 sequelize_instance.sync({ force: false })
     .then(() => {
         console.log('Database and tables created');
@@ -48,7 +60,7 @@ Like.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 Tweet.hasMany(Like, { foreignKey: 'tweet_id', onDelete: 'CASCADE' });
 Like.belongsTo(Tweet, { foreignKey: 'tweet_id', onDelete: 'CASCADE' });
 
-User.hasMany(Follow, { foreignKey: 'follower_id', onDelete: 'CASCADE' });
+User.hasMany(Follow, { foreignKey: 'follower_id', onDelete: 'CASCADE'});
 Follow.belongsTo(User, { foreignKey: 'follower_id', onDelete: 'CASCADE' });
 
 User.hasMany(Follow, { foreignKey: 'followed_id', onDelete: 'CASCADE' });

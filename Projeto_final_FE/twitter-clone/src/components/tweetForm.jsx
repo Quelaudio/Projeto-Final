@@ -1,4 +1,5 @@
 // TweetForm.jsx
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import axios from 'axios';
 import './tweetForm.css';
@@ -6,7 +7,7 @@ import './tweetForm.css';
 const TweetForm = () => {
     const [text, setText] = useState('');
     const [imgPath, setImgPath] = useState('');
-    const [datePub, setDatePub] = useState('');
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,16 +18,17 @@ const TweetForm = () => {
         }
 
         try {
+            // eslint-disable-next-line no-unused-vars
             const response = await axios.post('http://localhost:3000/tweets', {
-                UserUserid: user_id, // Include the user ID in the request payload
+                user_id, 
                 text,
                 img_path: imgPath,
-                date_pub: datePub
+                
             });
             alert('Tweet posted successfully');
-            setText(''); // Clear the input fields after successful submission
+            setText('');
             setImgPath('');
-            setDatePub('');
+           
         } catch (error) {
             console.error('Error posting tweet', error);
             alert('Error posting tweet');
@@ -51,14 +53,6 @@ const TweetForm = () => {
                         type="text"
                         value={imgPath}
                         onChange={(e) => setImgPath(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label>Publication Date</label>
-                    <input
-                        type="date"
-                        value={datePub}
-                        onChange={(e) => setDatePub(e.target.value)}
                     />
                 </div>
                 <button type="submit">Post Tweet</button>

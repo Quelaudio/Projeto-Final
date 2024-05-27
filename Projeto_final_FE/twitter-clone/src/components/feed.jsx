@@ -1,13 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Users = () => {
-  const [users, setUsers] = useState([]);
+const Feed = () => {
+  const [Feed, setFeed] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/users') 
+    axios.get('http://localhost:3000/tweets') 
       .then(response => {
-        setUsers(response.data);
+        setFeed(response.data);
       })
       .catch(error => {
         console.error('Error fetching users:', error);
@@ -16,14 +17,14 @@ const Users = () => {
 
   return (
     <div>
-      <h2>Users</h2>
+      <h2>Feed</h2>
       <ul>
-        {users.map(user => (
-          <li key={user.user_id}>{user.email}</li>
+        {Feed.map(feed => (
+          <li key={feed.tweets_id}>{feed.text}</li>
         ))}
       </ul>
     </div>
   );
 };
 
-export default Users;
+export default Feed;

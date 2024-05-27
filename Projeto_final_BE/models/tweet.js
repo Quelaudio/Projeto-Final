@@ -8,9 +8,9 @@ module.exports = (sequelize, type) => {
         primaryKey:true
 
     },
-    text: type.TEXT,
+    text: type.STRING(280),
     img_path: type.TEXT,
-    date_pub : type.DATE,
+    
     
 
 

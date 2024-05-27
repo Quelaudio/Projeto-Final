@@ -19,8 +19,10 @@ var userController = require('../controller/userController')
 //   });
 // }
 
+router.get('/Login',userController.loginUser)
 router.get('/',userController.getUsers)
-router.post('/',userController.signupUser)
+
+router.post('/signup',userController.signupUser)
 
 
 

@@ -1,4 +1,5 @@
 // SignUp.js
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import axios from 'axios';
 import './sginup.css';
@@ -14,8 +15,8 @@ const SignUp = () => {
                 email,
                 password
             });
-            const { UserUserid } = response.data;
-            localStorage.setItem('UserUserid', UserUserid);
+            const { user_id } = response.data;
+            localStorage.setItem('user_id', user_id);
             alert('User created successfully');
         } catch (error) {
             console.error('Error signing up', error);

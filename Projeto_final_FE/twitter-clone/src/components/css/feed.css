@@ -25,6 +25,14 @@ h2 {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: relative;
   }
+
+  button{
+    background-color: red;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    font-size: medium;
+    font-weight: bold;
+  }
   .tweet-meta {
     position: absolute;
     bottom: 10px;

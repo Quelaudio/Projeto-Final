@@ -1,34 +1,19 @@
 // sequelize.js
-
-const dotenv = require('dotenv');
-dotenv.config();
 const { Sequelize, DataTypes } = require('sequelize');
-// import multer from 'multer';
-// import path from 'path';
 
-// Import models
+
+//  importar modelos
 const UserDataModel = require('./models/user');
 const TweetDataModel = require('./models/tweet');
 const CommentDataModel = require('./models/comments');
 const LikeDataModel = require('./models/likes');
 const FollowDataModel = require('./models/follower');
 
-// Initialize Sequelize
+// inicializar Sequelize
 const sequelize_instance = new Sequelize(process.env.DB_SCHEMA, process.env.DB_USER, process.env.DB_PASS, {
     dialect: 'mysql'
 });
-
-
-// const storage = multer.diskStorage({
-//     destination: (req,file,cb) =>{
-//         sequelize_instance(null,'public/images')
-//     },
-//     filename: (req,file,cb)=>{
-//         sequelize_instance(null,file.fieldname + "_" + Date.now() + path.extname(file.originalname))
-//     }
-// })
-
-// Authenticate Sequelize
+// Autenticação Sequelize
 sequelize_instance.authenticate()
     .then(() => {
         console.log("Connection has been established");
@@ -43,14 +28,14 @@ sequelize_instance.sync({ force: false })
         console.log('Database and tables created');
     });
 
-// Define models
+// Define modelos
 const User = UserDataModel(sequelize_instance, DataTypes);
 const Tweet = TweetDataModel(sequelize_instance, DataTypes);
 const Comment = CommentDataModel(sequelize_instance, DataTypes);
 const Like = LikeDataModel(sequelize_instance, DataTypes);
 const Follow = FollowDataModel(sequelize_instance, DataTypes);
 
-// Define associations
+// Define associações
 Tweet.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 User.hasMany(Tweet, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 

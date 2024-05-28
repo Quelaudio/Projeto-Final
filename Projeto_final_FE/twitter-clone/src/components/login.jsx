@@ -17,8 +17,8 @@ const Login = () => {
                 email,
                 password
             });
-            const { user_id, token } = response.data;
-            localStorage.setItem('user_id', user_id);
+            const { user, token } = response.data;
+            localStorage.setItem('user_id', user.user_id);
             localStorage.setItem('token', token);
             alert('Logged in successfully');
             

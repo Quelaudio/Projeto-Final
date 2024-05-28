@@ -1,19 +1,20 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import axios from 'axios';
 import './css/tweetForm.css';
 
 const TweetForm = () => {
     const [text, setText] = useState('');
-    const [imgFile, setImgFile] = useState(null);
+    const [imgFile, setImgFile] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const user_id = localStorage.getItem('user_id'); 
-        if (!user_id) {
-            alert('Please log in to post a tweet');
-            return;
-        }
+        // if (!user_id) {
+        //     alert('Please log in to post a tweet');
+        //     return;
+        // }
 
         // Verificar se o texto não está vazio
         if (text.trim() === '') {
@@ -32,6 +33,8 @@ const TweetForm = () => {
             formData.append('img', imgFile);
         }
 
+        console.log(JSON.stringify(formData));
+
         try {
             const response = await axios.post('http://localhost:3000/tweets', formData, {
                 headers: {
@@ -41,7 +44,7 @@ const TweetForm = () => {
             console.log('Response:', response.data); // Verificação da resposta do servidor
             alert('Tweet posted successfully');
             setText('');
-            setImgFile(null);
+            setImgFile('');
         } catch (error) {
             console.error('Error posting tweet', error);
             alert('Error posting tweet');

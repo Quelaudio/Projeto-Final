@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './css/feed.css'; 
@@ -34,7 +35,7 @@ const Feed = () => {
 
   return (
     <div className="feed-container">
-      <h2>Feed</h2>
+      <h2>Your Feed</h2>
       <ul className="caixa">
         {feed.map(tweet => (
           <li key={tweet.tweet_id}>

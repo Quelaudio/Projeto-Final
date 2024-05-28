@@ -7,11 +7,13 @@ import './css/signup.css';
 const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [username, setusername] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:3000/users', {
+                username,
                 email,
                 password
             });
@@ -29,6 +31,15 @@ const SignUp = () => {
             <h2>Sign Up</h2>
             <form className="signup-form" onSubmit={handleSubmit}>
                 <div>
+                <div>
+                    <label>Username</label>
+                    <input
+                        type="tex"
+                        value={username}
+                        onChange={(e) => setusername(e.target.value)}
+                        required
+                    />
+                </div>
                     <label>Email</label>
                     <input
                         type="email"

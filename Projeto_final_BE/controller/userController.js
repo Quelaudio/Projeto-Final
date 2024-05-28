@@ -12,7 +12,7 @@ function generateAccessToken(email, password) {
 
 
 
-// Get Users
+//contolador para obter users
 exports.getUsers = (req, res, next) => {
     User.findAll()
         .then(users => {
@@ -24,7 +24,7 @@ exports.getUsers = (req, res, next) => {
         });
 };
 
-// Signup User
+// controlador para fazer registro
 exports.signupUser = (req, res, next) => {
     User.create(req.body)
         .then(newUser => {
@@ -36,7 +36,7 @@ exports.signupUser = (req, res, next) => {
         });
 };
 
-// Login User
+//controlador para fazer login
 exports.loginUser = (req, res) => {
     var { email, password } = req.body;
     User.findOne({
@@ -58,7 +58,7 @@ exports.loginUser = (req, res) => {
     });
 };
 
-
+//controlador para logout
 exports.logout, (req, res) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];

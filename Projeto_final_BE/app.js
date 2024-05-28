@@ -20,7 +20,7 @@ var tweetsRouter = require('./routes/tweet');
 
 var app = express();
 app.use(cors());
-app.use('/uploads', express.static('uploads'));
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -39,6 +39,7 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 
 
 ///////////////////////////////
+///Rotas
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tweets', tweetsRouter);

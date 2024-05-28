@@ -20,6 +20,7 @@ var tweetsRouter = require('./routes/tweet');
 
 var app = express();
 app.use(cors());
+app.use('/uploads', express.static('uploads'));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

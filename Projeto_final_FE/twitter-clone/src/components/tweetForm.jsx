@@ -1,34 +1,35 @@
-// TweetForm.jsx
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import axios from 'axios';
 import './css/tweetForm.css';
 
 const TweetForm = () => {
     const [text, setText] = useState('');
-    const [imgPath, setImgPath] = useState('');
-    
+    const [imgFile, setImgFile] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const user_id = localStorage.getItem('user_id'); // Retrieve the user ID from local storage
+        const user_id = localStorage.getItem('user_id'); 
         if (!user_id) {
             alert('Please log in to post a tweet');
             return;
         }
 
+        const formData = new FormData();
+        formData.append('user_id', user_id);
+        formData.append('text', text);
+        if (imgFile) {
+            formData.append('img', imgFile);
+        }
+
         try {
-            // eslint-disable-next-line no-unused-vars
-            const response = await axios.post('http://localhost:3000/tweets', {
-                user_id, 
-                text,
-                img_path: imgPath,
-                
+            const response = await axios.post('http://localhost:3000/tweets', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
             alert('Tweet posted successfully');
             setText('');
-            setImgPath('');
-           
+            setImgFile(null);
         } catch (error) {
             console.error('Error posting tweet', error);
             alert('Error posting tweet');
@@ -46,20 +47,15 @@ const TweetForm = () => {
                         required
                     />
                 </div>
-                <div class="input-group">
-                <label for='files'>Select files</label>
-                <input id='files' type="file" multiple 
-                value={imgPath}
-                onChange={(e) => setImgPath(e.target.value)}/>
-            </div>
-                {/* <div>
-                    <label>Image Path</label>
+                <div className="input-group">
+                    <label htmlFor="files">Select files</label>
                     <input
-                        type="text"
-                        value={imgPath}
-                        onChange={(e) => setImgPath(e.target.value)}
+                        id="files"
+                        type="file"
+                        multiple={false}
+                        onChange={(e) => setImgFile(e.target.files[0])}
                     />
-                </div> */}
+                </div>
                 <button type="submit">Post Tweet</button>
             </form>
         </div>

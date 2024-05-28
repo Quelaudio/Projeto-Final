@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken')
 var tweetController = require('../controller/tweetController');
+var multer = require ('multer');
 
 router.use(authenticateTokenFromHeaders);
 
@@ -29,7 +30,22 @@ function checkBlacklistedToken(req, res, next) {
   next();
 }
 
-router.post('/', tweetController.createTweet);
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage });
+
+
+
+
+
+router.post('/', tweetController.createTweet, upload.single('img'));
 router.get('/', tweetController.getTweets);
 router.put('/',tweetController.upTweets)
 

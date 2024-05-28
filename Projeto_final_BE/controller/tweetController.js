@@ -15,45 +15,120 @@ const { where } = require('sequelize');
     
 
 // controller/tweetController.js
+// const Tweet = require('../sequelize').Tweet;
+
+// exports.createTweet=(req,res,next)=>{
+//     Tweet.create(req.body)
+//     .then(newTweet => {
+//             res.send("Inserted with ID: "+ newTweet.tweet_id);
+//     });
+// }
+
+
+// exports.getTweets = (req, res, next)=> {
+//     Tweet.findAll()
+//         .then(Tweets => {
+//             res.send(Tweets);
+//         });
+// };
+
+// exports.upTweets = (req, res, next) => {
+//     const { tweet_id, text, img_path, date_pub } = req.body;
+
+//     Tweet.update(
+//         {
+//             text: text,
+//             img_path: img_path,
+//             date_pub: date_pub
+//         },
+//         {
+//             where: {
+//                 tweet_id: tweet_id
+//             }
+//         }
+//     ).then(result => {
+//         if (result[0] === 0) {
+            
+//             res.status(404).json({ message: "Tweet not found or no changes made" });
+//         } else {
+//             res.status(200).json({ message: "Tweet updated successfully" });
+//         }
+//     }).catch(err => {
+//         res.status(500).json({ error: err.message });
+//     });
+// };
+
 const Tweet = require('../sequelize').Tweet;
+const multer = require('multer');
+const path = require('path');
 
-exports.createTweet=(req,res,next)=>{
-    Tweet.create(req.body)
-    .then(newTweet => {
-            res.send("Inserted with ID: "+ newTweet.user_id);
+// Configuração do multer
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/'); // Diretório onde os arquivos serão salvos
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Renomeia o arquivo para evitar conflitos de nome
+    }
+});
+
+const upload = multer({ storage: storage });
+
+// Controlador para criar um tweet
+exports.createTweet = (req, res, next) => {
+    upload.single('img')(req, res, (err) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        const { user_id, text } = req.body;
+        const img_path = req.file ? req.file.path : null;
+
+        Tweet.create({ user_id, text, img_path })
+            .then(newTweet => {
+                res.send("Inserted with ID: " + newTweet.id);
+            })
+            .catch(error => {
+                res.status(500).json({ error: error.message });
+            });
     });
-}
+};
 
-
-exports.getTweets = (req, res, next)=> {
+// Controlador para obter todos os tweets
+exports.getTweets = (req, res, next) => {
     Tweet.findAll()
-        .then(Tweets => {
-            res.send(Tweets);
+        .then(tweets => {
+            res.send(tweets);
+        })
+        .catch(error => {
+            res.status(500).json({ error: error.message });
         });
 };
 
+// Controlador para atualizar um tweet
 exports.upTweets = (req, res, next) => {
-    const { tweet_id, text, img_path, date_pub } = req.body;
+    const { tweet_id, text, img_path } = req.body;
 
     Tweet.update(
         {
             text: text,
-            img_path: img_path,
-            date_pub: date_pub
+            img_path: img_path
+            
         },
         {
             where: {
                 tweet_id: tweet_id
             }
         }
-    ).then(result => {
+    )
+    .then(result => {
         if (result[0] === 0) {
-            
             res.status(404).json({ message: "Tweet not found or no changes made" });
         } else {
             res.status(200).json({ message: "Tweet updated successfully" });
         }
-    }).catch(err => {
+    })
+    .catch(err => {
         res.status(500).json({ error: err.message });
     });
 };

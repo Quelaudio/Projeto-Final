@@ -50,27 +50,3 @@ h2 {
 .signup-form button:hover {
     background-color: #0056b3;
 }
-
-@media (max-width: 600px) {
-    .signup-container {
-        width: 90%;
-        padding: 15px;
-    }
-
-    .signup-form input {
-        padding: 10px;
-    }
-
-    .signup-form button {
-        padding: 12px;
-        font-size: 18px;
-    }
-
-    h2 {
-        font-size: 24px;
-    }
-
-    .signup-form label {
-        font-size: 14px;
-    }
-}

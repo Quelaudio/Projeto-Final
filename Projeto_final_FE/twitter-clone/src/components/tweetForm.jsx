@@ -8,11 +8,22 @@ const TweetForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const user_id = localStorage.getItem('user_id'); 
         if (!user_id) {
             alert('Please log in to post a tweet');
             return;
         }
+
+        // Verificar se o texto não está vazio
+        if (text.trim() === '') {
+            alert('Tweet text cannot be empty');
+            return;
+        }
+
+        console.log('User ID:', user_id); // Verificação do user_id
+        console.log('Tweet Text:', text); // Verificação do texto
+        console.log('Selected Image:', imgFile); // Verificação do arquivo de imagem
 
         const formData = new FormData();
         formData.append('user_id', user_id);
@@ -27,6 +38,7 @@ const TweetForm = () => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+            console.log('Response:', response.data); // Verificação da resposta do servidor
             alert('Tweet posted successfully');
             setText('');
             setImgFile(null);
@@ -44,15 +56,15 @@ const TweetForm = () => {
                     <textarea
                         value={text}
                         onChange={(e) => setText(e.target.value)}
+                        placeholder="What's happening?"
                         required
                     />
                 </div>
                 <div className="input-group">
-                    <label htmlFor="files">Select files</label>
+                    <label htmlFor="files">Select an image</label>
                     <input
                         id="files"
                         type="file"
-                        multiple={false}
                         onChange={(e) => setImgFile(e.target.files[0])}
                     />
                 </div>

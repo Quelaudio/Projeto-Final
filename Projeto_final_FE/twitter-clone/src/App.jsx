@@ -7,12 +7,12 @@ import Navbar from './components/navbar';
 import SignUp from './components/signup';
 import TweetForm from './components/tweetForm';
 import Login from './components/login';
+import Admin from './components/admin';
 import axios from 'axios'; // Import Axios here
 
 const getToken = () => {
     return localStorage.getItem('token');
 };
-
 
 axios.interceptors.request.use(
     config => {
@@ -27,26 +27,21 @@ axios.interceptors.request.use(
     }
 );
 
-
-
-
 const App = () => {
     return (
         <Router>
             <div className="app">
                 <Navbar />
                 <div className="main-content">
-                    
                     <div className="main">
                         <Routes>
                             <Route path="/signup" element={<SignUp />} />
                             <Route path="/login" element={<Login />} />
-                           
+                            <Route path="/admin" element={<Admin />} />
                             <Route path="/tweet" element={<TweetForm />} />
                             <Route path="/" element={<Feed />} />
                         </Routes>
                     </div>
-                   
                 </div>
             </div>
         </Router>

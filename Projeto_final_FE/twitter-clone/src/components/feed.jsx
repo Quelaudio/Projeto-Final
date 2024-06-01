@@ -17,7 +17,7 @@ const Feed = () => {
   }, []);
 
   const handleLike = (tweetId) => {
-    axios.post('http://localhost:3000/like', { tweetId })
+    axios.post('http://localhost:3000/likes', { tweetId })
       .then(response => {
         setFeed(prevFeed => {
           return prevFeed.map(tweet => {

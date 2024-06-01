@@ -3,32 +3,33 @@ var router = express.Router();
 var jwt = require('jsonwebtoken')
 var tweetController = require('../controller/tweetController');
 var multer = require ('multer');
+//var auth = require('auth.js');
 
-router.use(authenticateTokenFromHeaders);
+// router.use(authenticateTokenFromHeaders);
 
-function authenticateTokenFromHeaders(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+// function authenticateTokenFromHeaders(req, res, next) {
+//   const authHeader = req.headers['authorization'];
+//   const token = authHeader && authHeader.split(' ')[1];
 
-  if (token == null) return res.sendStatus(401); // If there's no token, return 401 Unauthorized
+//   if (token == null) return res.sendStatus(401); // If there's no token, return 401 Unauthorized
 
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-      if (err) return res.sendStatus(403); // If token is not valid, return 403 Forbidden
-      req.user = user;
-      next(); // Proceed to the next middleware or route handler
-  });
-}
+//   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+//       if (err) return res.sendStatus(403); // If token is not valid, return 403 Forbidden
+//       req.user = user;
+//       next(); // Proceed to the next middleware or route handler
+//   });
+// }
 
-function checkBlacklistedToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+// function checkBlacklistedToken(req, res, next) {
+//   const authHeader = req.headers['authorization'];
+//   const token = authHeader && authHeader.split(' ')[1];
 
-  if (checkBlacklistedToken.includes(token)) {
-      return res.status(401).json({ message: 'Token is blacklisted' });
-  }
+//   if (checkBlacklistedToken.includes(token)) {
+//       return res.status(401).json({ message: 'Token is blacklisted' });
+//   }
 
-  next();
-}
+//   next();
+// }
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

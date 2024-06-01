@@ -17,6 +17,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var tweetsRouter = require('./routes/tweet');
 var likesRouter = require('./routes/like');
+var commentsRouter = require('./routes/comment');
+var followRouter = require('./routes/follow');
 ///////////////////////////////////////////////
 
 var app = express();
@@ -38,16 +40,15 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 app.get('/favicon.ico', (req, res) => res.status(204));
 
 
-
 ///////////////////////////////
 ///Rotas
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tweets', tweetsRouter);
 app.use('/likes', likesRouter);
+app.use('/comment', commentsRouter)
+app.use('/follow', followRouter)
 ////////////////////////////////
-
-
 
 
 

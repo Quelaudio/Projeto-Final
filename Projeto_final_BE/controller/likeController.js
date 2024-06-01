@@ -4,20 +4,20 @@ var jwt = require('jsonwebtoken');
 
 
 exports.addLike = (req, res, next) => {
-    const { tweetId, user_id } = req.body;
+    const { tweet_id, user_id } = req.body;
 
     Like.findOne({
-        where: { tweet_id: tweetId, user_id: user_id }
+        where: { tweet_id: tweet_id, user_id: user_id }
     })
     .then(result => {
-        if (result) {
-            res.status(400).json({ message: "You already liked this tweet." });
-        } else {
+        if (result == null) {
             return Like.create({
-                tweet_id: tweetId,
+                tweet_id: tweet_id,
                 user_id: user_id,
-                liked_date: new Date()
+               
             });
+        } else {
+            res.status(400).json({ message: "You already liked this tweet." });
         }
     })
     .then(() => {

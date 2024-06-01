@@ -7,3 +7,5 @@ var likeController = require('../controller/likeController')
 
 
 router.post('/',likeController.addLike);
+
+module.exports = router;

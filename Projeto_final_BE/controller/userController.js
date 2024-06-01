@@ -1,6 +1,7 @@
 const User = require('../sequelize').User;
 var jwt = require('jsonwebtoken');
 
+
 // Generate Access Token
 function generateAccessToken(email, password) {
     var token = jwt.sign({ email, password }, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
@@ -26,9 +27,11 @@ exports.getUsers = (req, res, next) => {
 
 // controlador para fazer registro
 exports.signupUser = (req, res, next) => {
+    var { email, password } = req.body;
     User.create(req.body)
         .then(newUser => {
-            res.send("Inserted with ID: " + newUser.user_id);
+            const token = generateAccessToken(email, password);
+            res.status(200).json({ newUser, token: token });
         })
         .catch(error => {
             console.error('Error creating user:', error);
@@ -58,14 +61,14 @@ exports.loginUser = (req, res) => {
     });
 };
 
-//controlador para logout
-exports.logout, (req, res) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+// //controlador para logout
+// exports.logout, (req, res) => {
+//     const authHeader = req.headers['authorization'];
+//     const token = authHeader && authHeader.split(' ')[1];
 
-    if (token == null) return res.sendStatus(401);
+//     if (token == null) return res.sendStatus(401);
 
-    blacklistedTokens.push(token);
-    res.json({ message: 'Logged out successfully' });
-};
+//     blacklistedTokens.push(token);
+//     res.json({ message: 'Logged out successfully' });
+// };
 

@@ -32,7 +32,7 @@ exports.createTweet = (req, res, next) => {
 
         Tweet.create({ user_id, text, img_path })
             .then(newTweet => {
-                res.send("Inserted with ID: " + newTweet.id);
+                res.send("Inserted with ID: " + newTweet.tweet_id);
             })
             .catch(error => {
                 res.status(500).json({ error: error.message });

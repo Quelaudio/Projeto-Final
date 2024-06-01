@@ -1,4 +1,6 @@
 // sequelize.js
+var dotenv = require('dotenv');
+dotenv.config();
 const { Sequelize, DataTypes } = require('sequelize');
 
 
@@ -8,11 +10,27 @@ const TweetDataModel = require('./models/tweet');
 const CommentDataModel = require('./models/comments');
 const LikeDataModel = require('./models/likes');
 const FollowDataModel = require('./models/follower');
+const tweet = require('./models/tweet');
 
 // inicializar Sequelize
-const sequelize_instance = new Sequelize(process.env.DB_SCHEMA, process.env.DB_USER, process.env.DB_PASS, {
-    dialect: 'mysql'
+// const sequelize_instance = new Sequelize(process.env.DB_SCHEMA, process.env.DB_USER, process.env.DB_PASS, {
+//     dialect: 'mysql'
+// });
+
+
+const sequelize_instance = new Sequelize(process.env.DB_SCHEMA, process.env.DB_USER, process.env.DB_PASS,{
+    dialect: 'mysql',
+    dialectOptions:{
+       // ssl: {
+       //     require: true
+       // },
+        host: process.env.DB_HOST
+    }
+
+
 });
+
+
 // Autenticação Sequelize
 sequelize_instance.authenticate()
     .then(() => {
@@ -35,7 +53,7 @@ const Comment = CommentDataModel(sequelize_instance, DataTypes);
 const Like = LikeDataModel(sequelize_instance, DataTypes);
 const Follow = FollowDataModel(sequelize_instance, DataTypes);
 
-// Define associações
+//  associações
 Tweet.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 User.hasMany(Tweet, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 
@@ -50,6 +68,13 @@ Follow.belongsTo(User, { foreignKey: 'follower_id', onDelete: 'CASCADE' });
 
 User.hasMany(Follow, { foreignKey: 'followed_id', onDelete: 'CASCADE' });
 Follow.belongsTo(User, { foreignKey: 'followed_id', onDelete: 'CASCADE' });
+
+Tweet.hasMany(Comment, { foreignKey: 'tweet_id', onDelete: 'CASCADE' });
+Comment.belongsTo(Tweet, { foreignKey: 'tweet_id', onDelete: 'CASCADE' });
+
+
+
+
 
 module.exports = {
     User,

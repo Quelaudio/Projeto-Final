@@ -12,10 +12,10 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
            
         },
-        liked_date: {
-            type: type.DATE,
-            allowNull: false
-        },
+        // liked_date: {
+        //     type: type.DATE,
+        //     allowNull: false
+        // },
 
 
     });

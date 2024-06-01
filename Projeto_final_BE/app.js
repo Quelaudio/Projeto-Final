@@ -16,6 +16,7 @@ const cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var tweetsRouter = require('./routes/tweet');
+var likesRouter = require('./routes/like');
 ///////////////////////////////////////////////
 
 var app = express();
@@ -43,6 +44,7 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tweets', tweetsRouter);
+app.use('/likes', likesRouter);
 ////////////////////////////////
 
 

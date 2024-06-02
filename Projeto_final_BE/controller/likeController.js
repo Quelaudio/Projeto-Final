@@ -14,10 +14,9 @@ exports.addLike = (req, res, next) => {
             return Like.create({
                 tweet_id: tweet_id,
                 user_id: user_id,
-               
             });
         } else {
-            res.status(400).json({ message: "You already liked this tweet." });
+            console.log("You already liked this tweet." );
         }
     })
     .then(() => {

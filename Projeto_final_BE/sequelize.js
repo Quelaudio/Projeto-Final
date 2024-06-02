@@ -10,7 +10,6 @@ const TweetDataModel = require('./models/tweet');
 const CommentDataModel = require('./models/comments');
 const LikeDataModel = require('./models/likes');
 const FollowDataModel = require('./models/follower');
-const tweet = require('./models/tweet');
 
 // inicializar Sequelize
 // const sequelize_instance = new Sequelize(process.env.DB_SCHEMA, process.env.DB_USER, process.env.DB_PASS, {
@@ -21,9 +20,9 @@ const tweet = require('./models/tweet');
 const sequelize_instance = new Sequelize(process.env.DB_SCHEMA, process.env.DB_USER, process.env.DB_PASS,{
     dialect: 'mysql',
     dialectOptions:{
-       // ssl: {
-       //     require: true
-       // },
+       ssl: {
+           require: true
+       },
         host: process.env.DB_HOST
     }
 

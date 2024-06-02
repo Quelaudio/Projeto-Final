@@ -22,7 +22,7 @@ const upload = multer({ storage: storage });
 
 // Controlador para criar um tweet
 exports.createTweet = (req, res, next) => {
-    upload.single('img')(req, res, (err) => {
+    upload.single('img')(req, res, err => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
@@ -77,4 +77,22 @@ exports.upTweets = (req, res, next) => {
     .catch(err => {
         res.status(500).json({ error: err.message });
     });
+};
+
+exports.deleteTweet = (req, res) => {
+    const { tweet_id } = req.params; 
+    Tweet.findByPk( tweet_id) 
+        .then(tweet => {
+            if (tweet == null) {
+                return res.status(404).json({ message: 'No Tweet found with that ID' });
+            } else {
+                return tweet.destroy().then(() => {
+                    res.status(200).json({ message: 'Tweet successfully deleted' });
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting Tweet:', error);
+            res.status(500).send('Error deleting Tweet');
+        });
 };

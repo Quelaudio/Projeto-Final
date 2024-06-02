@@ -34,7 +34,7 @@ const AdminPage = () => {
 
     const handleUpdateUser = async () => {
         try {
-            await axios.put('http://localhost:3000/users', editingUser);
+            await axios.put(`http://localhost:3000/users/${editingUser.user_id}`, editingUser);
             alert('User updated successfully');
             setEditingUser(null);
             fetchUsers();
@@ -42,20 +42,22 @@ const AdminPage = () => {
             console.error('Error updating user:', error);
         }
     };
-
     const handleDeleteUser = async (user_id) => {
         try {
-            await axios.delete(`http://localhost:3000/users/${user_id}`);
-            alert('User deleted successfully');
-            fetchUsers();
-        } catch (error) {
+            const response = await axios.delete(`http://localhost:3000/users/delete/${user_id}`);
+           
+                alert('User deleted successfully');
+                fetchUsers();
+            } 
+         catch (error) {
             console.error('Error deleting user:', error);
+            alert('Error deleting user: ' + error.message);
         }
     };
 
     const handleUpdateTweet = async () => {
         try {
-            await axios.put('http://localhost:3000/tweets', editingTweet);
+            await axios.put(`http://localhost:3000/tweets/${editingTweet.tweet_id}`, editingTweet);
             alert('Tweet updated successfully');
             setEditingTweet(null);
             fetchTweets();
@@ -66,11 +68,13 @@ const AdminPage = () => {
 
     const handleDeleteTweet = async (tweet_id) => {
         try {
-            await axios.delete(`http://localhost:3000/tweets/${tweet_id}`);
-            alert('Tweet deleted successfully');
-            fetchTweets();
+            const response = await axios.delete(`http://localhost:3000/tweets/delete/${tweet_id}`);
+                alert('Tweet deleted successfully');
+                fetchTweets();
+                       
         } catch (error) {
             console.error('Error deleting tweet:', error);
+            alert('Error deleting tweet');
         }
     };
 
@@ -87,11 +91,11 @@ const AdminPage = () => {
                         <h2>User Management</h2>
                         <ul>
                             {users.map(user => (
-                                <li key={user.id}>
-                                    {user.name} ({user.email})
+                                <li key={user.user_id}>
+                                    {user.username} ({user.email})
                                     <div className="admin-buttons">
                                         <button onClick={() => setEditingUser(user)}>Edit</button>
-                                        <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
+                                        <button onClick={() => handleDeleteUser(user.user_id)}>Delete</button>
                                     </div>
                                 </li>
                             ))}
@@ -102,13 +106,18 @@ const AdminPage = () => {
                                 <h3>Edit User</h3>
                                 <input
                                     type="text"
-                                    value={editingUser.name}
-                                    onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
+                                    value={editingUser.username}
+                                    onChange={(e) => setEditingUser({ ...editingUser, username: e.target.value })}
+                                />
+                                <input
+                                    type="email"
+                                    value={editingUser.email}
+                                    onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })}
                                 />
                                 <input
                                     type="text"
-                                    value={editingUser.email}
-                                    onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })}
+                                    value={editingUser.user_type}
+                                    onChange={(e) => setEditingUser({ ...editingUser, user_type: e.target.value })}
                                 />
                                 <div className="edit-buttons">
                                     <button onClick={handleUpdateUser}>Save</button>
@@ -124,11 +133,11 @@ const AdminPage = () => {
                         <h2>Tweet Management</h2>
                         <ul>
                             {tweets.map(tweet => (
-                                <li key={tweet.id}>
+                                <li key={tweet.tweet_id}>
                                     {tweet.text}
                                     <div className="admin-buttons">
                                         <button onClick={() => setEditingTweet(tweet)}>Edit</button>
-                                        <button onClick={() => handleDeleteTweet(tweet.id)}>Delete</button>
+                                        <button onClick={() => handleDeleteTweet(tweet.tweet_id)}>Delete</button>
                                     </div>
                                 </li>
                             ))}

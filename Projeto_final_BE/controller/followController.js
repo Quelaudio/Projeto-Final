@@ -7,8 +7,8 @@ exports.makeFollow = (req, res, next) => {
         const { follower_id, followed_id,follow_date } = req.body;
 
         Follow.create({ follower_id, followed_id,follow_date })
-            .then(newFolow => {
-                res.send("Inserted with ID: " + newFolow.id);
+            .then(newFollow => {
+                res.send("Inserted with ID: " + newFollow.id);
             })
             .catch(error => {
                 res.status(500).json({ error: error.message });

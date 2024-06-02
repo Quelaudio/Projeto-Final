@@ -1,5 +1,4 @@
 // SignUp.js
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import axios from 'axios';
 import './css/signup.css';
@@ -7,19 +6,31 @@ import './css/signup.css';
 const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [username, setusername] = useState('');
+    const [username, setUsername] = useState('');
+    const [user_type, setUser_type] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/users', {
+            const response = await axios.post('http://localhost:3000/users/signup', {
                 username,
                 email,
-                password
+                password,
+                user_type
             });
-            const { user_id } = response.data;
-            localStorage.setItem('user_id', user_id);
-            alert('User created successfully');
+
+            console.log(response.data); // Log response data to inspect its structure
+
+            if (response.data && response.data.user && response.data.token) {
+                const { user, token } = response.data;
+
+                localStorage.setItem('user_id', user.user_id);
+                localStorage.setItem('token', token);
+                alert('User created successfully');
+            } else {
+                console.error('Unexpected response format:', response.data);
+                alert('Error signing up: Unexpected response format');
+            }
         } catch (error) {
             console.error('Error signing up', error);
             alert('Error signing up');
@@ -31,15 +42,15 @@ const SignUp = () => {
             <h2>Sign Up</h2>
             <form className="signup-form" onSubmit={handleSubmit}>
                 <div>
-                <div>
                     <label>Username</label>
                     <input
-                        type="tex"
+                        type="text" // Corrected the input type
                         value={username}
-                        onChange={(e) => setusername(e.target.value)}
+                        onChange={(e) => setUsername(e.target.value)}
                         required
                     />
                 </div>
+                <div>
                     <label>Email</label>
                     <input
                         type="email"
@@ -57,8 +68,16 @@ const SignUp = () => {
                         required
                     />
                 </div>
+                <div>
+                    <label>Tipo de Usuario</label>
+                    <input
+                        type="text"
+                        value={user_type}
+                        onChange={(e) => setUser_type(e.target.value)}
+                        required
+                    />
+                </div>
                 <button type="submit">Sign Up</button>
-                
             </form>
         </div>
     );

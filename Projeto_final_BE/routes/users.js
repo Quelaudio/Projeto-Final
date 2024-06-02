@@ -25,6 +25,9 @@ router.get('/',userController.getUsers)
 
 router.post('/signup',userController.signupUser)
 
+router.delete('/delete/:user_id',userController.deleteUser)
+router.put('/:user_id',userController.upUsers)
+
 
 
 

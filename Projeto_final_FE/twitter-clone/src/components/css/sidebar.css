@@ -1,0 +1,49 @@
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 50px;
+  margin-left: 40%;
+  background-color: white;
+  border: 1px solid #3c3636;
+  color: black;
+  border-radius: 20px;
+  min-width: 30%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h3 {
+  font-weight: bolder;
+}
+.followers-list {
+  list-style-type: none;
+  padding: 0;
+  color: rgb(16, 15, 15);
+}
+
+.follower-item {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px 0;
+  margin-bottom: 10px;
+  min-height: 50px;
+  width: 300px;
+  background-color: rgb(214, 213, 213);
+  border-radius: 20px;
+  color: black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.utilizador {
+  color: black;
+  font-weight: bold;
+  font-size: large;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.botao {
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  font-size: medium;
+  font-weight: bold;
+}

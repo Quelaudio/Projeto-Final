@@ -48,6 +48,7 @@ const upload = multer({ storage });
 
 router.post('/', tweetController.createTweet, upload.single('img'));
 router.get('/', tweetController.getTweets);
-router.put('/',tweetController.upTweets)
+router.put('/:tweet_id',tweetController.upTweets)
+router.delete('/delete/:tweet_id',tweetController.deleteTweet)
 
 module.exports = router;

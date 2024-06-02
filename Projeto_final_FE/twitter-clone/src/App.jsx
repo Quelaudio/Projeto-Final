@@ -8,30 +8,32 @@ import SignUp from './components/signup';
 import TweetForm from './components/tweetForm';
 import Login from './components/login';
 import Admin from './components/admin';
-import axios from 'axios'; // Import Axios here
+import Sidebar from './components/sideBar';
+import axios from 'axios'; 
 
-const getToken = () => {
-    return localStorage.getItem('token');
-};
+// const getToken = () => {
+//     return localStorage.getItem('token');
+// };
 
-axios.interceptors.request.use(
-    config => {
-        const token = getToken();
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    error => {
-        return Promise.reject(error);
-    }
-);
+// axios.interceptors.request.use(
+//     config => {
+//         const token = getToken();
+//         if (token) {
+//             config.headers.Authorization = `Bearer ${token}`;
+//         }
+//         return config;
+//     },
+//     error => {
+//         return Promise.reject(error);
+//     }
+// );
 
 const App = () => {
     return (
         <Router>
             <div className="app">
                 <Navbar />
+                
                 <div className="main-content">
                     <div className="main">
                         <Routes>
@@ -40,10 +42,15 @@ const App = () => {
                             <Route path="/admin" element={<Admin />} />
                             <Route path="/tweet" element={<TweetForm />} />
                             <Route path="/" element={<Feed />} />
+                             
                         </Routes>
+                        
                     </div>
+                    <Sidebar />
                 </div>
+                
             </div>
+            
         </Router>
     );
 };
